@@ -5,13 +5,83 @@ info:
   description: 'API documentation for COVID-19 2020 cumulative counts of infection in the United States. Provided by the New York Times, based on data collected from state and local agencies. '
   contact:
     email: covid-data@nytimes.com
-    name: Covid Data
+    name: New York Times
+    url: 'https://github.com/nytimes/covid-19-data'
   license:
     url: 'https://github.com/nytimes/covid-19-data/blob/master/LICENSE'
-    name: License
+    name: License (CC BY-NC)
 servers:
   - url: 'https://covapi.herokuapp.com/'
     description: restapi
-paths: {}
+paths:
+  '/api/timeline/states/{state}':
+    get:
+      summary: Your GET endpoint
+      tags:
+        - states
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  state:
+                    type: object
+                    example: Alabama
+                    description: Name of the State
+                    properties:
+                      date:
+                        type: object
+                        example: '2020-04-13'
+                        description: Date in YYYY-MM-DD format
+                        properties:
+                          cases:
+                            type: string
+                            example: '10'
+                            description: Number of cases in the state on the particular date
+                          deaths:
+                            type: string
+                            description: Number of deaths in the state on a particular date.
+                            example: '1'
+              examples:
+                example-1:
+                  value:
+                    Alabama:
+                      '2020-04-13':
+                        cases: '3805'
+                        deaths: '104'
+                      '2020-04-14':
+                        cases: '3953'
+                        deaths: '114'
+                      '2020-04-15':
+                        cases: '4241'
+                        deaths: '123'
+                      '2020-04-16':
+                        cases: '4404'
+                        deaths: '137'
+                    Wyoming:
+                      '2020-04-13':
+                        cases: '275'
+                        deaths: '1'
+                      '2020-04-14':
+                        cases: '282'
+                        deaths: '1'
+                      '2020-04-15':
+                        cases: '288'
+                        deaths: '2'
+                      '2020-04-16':
+                        cases: '296'
+                        deaths: '2'
+      operationId: get-api-timeline-states
+      description: Gets a list broken out by state
+    parameters:
+      - schema:
+          type: string
+        name: state
+        in: path
+        description: Name of state
+        required: true
 components:
   schemas: {}
