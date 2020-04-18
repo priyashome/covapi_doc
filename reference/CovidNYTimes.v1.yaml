@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: CovidNYTimes API Docs
   version: '1.0'
-  description: 'API documentation for COVID-19 2020 cumulative counts of infection in the United States. Provided by the New York Times, based on data collected from state and local agencies. '
+  description: "API documentation for COVID-19 2020 cumulative counts of infection in the United States. Provided by the New York Times, based on data collected from state and local agencies.\n\nThe data begins with the first reported coronavirus case in Washington State on Jan. 21, 2020.\n\nCount of patients occurs at the place where they are treated, not where they live.\n\n**Confirmed**\nThis data reflects *Confirmed* cases. Cases are confirmed when they are reported by federal, state, territorial or local government agency. \n\n**Dates**\nEach date includes the cumulative count of cases or deaths reported on that day. \n"
   contact:
     email: covid-data@nytimes.com
     name: New York Times
@@ -14,9 +14,9 @@ servers:
   - url: 'https://covapi.herokuapp.com/'
     description: restapi
 paths:
-  '/api/timeline/states/{state}':
+  /api/timeline/states:
     get:
-      summary: Your GET endpoint
+      summary: states
       tags:
         - states
       responses:
@@ -75,13 +75,63 @@ paths:
                         cases: '296'
                         deaths: '2'
       operationId: get-api-timeline-states
-      description: Gets a list broken out by state
+      description: Gets a list broken out by state.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - cases
+              - deaths
+            default: both
+          in: query
+          name: mode
+          description: "Indicates if the counts of cases or the counts of deaths are desired.\n\nCan have 2 values `cases`, `deaths`. Default: both are  returned.\n "
+        - schema:
+            type: string
+          in: query
+    parameters: []
+  '/api/timeline/states/{state}':
     parameters:
       - schema:
           type: string
         name: state
         in: path
-        description: Name of state
         required: true
+        description: Name of the state
+    get:
+      summary: '/states/{state}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Timeline date in format YYYY-MM-DD.
+                example: '2020-04-16'
+                properties:
+                  cases:
+                    type: string
+                    description: Count of the number of cases in the state on a particular date.
+                    example: '120'
+                  deaths:
+                    type: string
+                    description: Count of the number of deaths in the state on a particular date.
+                    example: '1'
+              examples:
+                example-1:
+                  value:
+                    '2020-04-14':
+                      cases: '3953'
+                      deaths: '114'
+                    '2020-04-15':
+                      cases: '4241'
+                      deaths: '123'
+                    '2020-04-16':
+                      cases: '4404'
+                      deaths: '137'
+      operationId: get-api-timeline-states-state
+      description: 'Returns the timeline information for a single state. The state is specified as the Path Param. The timeline consists of information for each day, with a count of the number of COVID-19 cases in the state on that day and the count of the number of deaths in the state on that day.'
 components:
   schemas: {}
