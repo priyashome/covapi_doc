@@ -17,8 +17,6 @@ paths:
   /api/timeline/states:
     get:
       summary: states
-      tags:
-        - states
       responses:
         '200':
           description: OK
@@ -75,7 +73,11 @@ paths:
                         cases: '296'
                         deaths: '2'
       operationId: get-api-timeline-states
-      description: Gets a list broken out by state.
+      description: |-
+        Returns a list of states with cumulative infection counts broken out by date.
+
+        List of the United States states, with postal codes and FIPS Keys can be found at
+        https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696
       parameters:
         - schema:
             type: string
@@ -87,8 +89,16 @@ paths:
           name: mode
           description: "Indicates if the counts of cases or the counts of deaths are desired.\n\nCan have 2 values `cases`, `deaths`. Default: both are  returned.\n "
         - schema:
-            type: string
+            type: boolean
+            default: 'true'
           in: query
+          name: fipsKey
+          description: |+
+            FIPS Key = true, returns the state and county keys as FIPS code values.
+
+
+      tags:
+        - Timeline endpoints
     parameters: []
   '/api/timeline/states/{state}':
     parameters:
@@ -100,7 +110,8 @@ paths:
         description: Name of the state
     get:
       summary: '/states/{state}'
-      tags: []
+      tags:
+        - Timeline endpoints
       responses:
         '200':
           description: OK
@@ -132,6 +143,6 @@ paths:
                       cases: '4404'
                       deaths: '137'
       operationId: get-api-timeline-states-state
-      description: 'Returns the timeline information for a single state. The state is specified as the Path Param. The timeline consists of information for each day, with a count of the number of COVID-19 cases in the state on that day and the count of the number of deaths in the state on that day.'
+      description: "Returns the timeline information for a single state. The state is specified as the Path Param. \n\nThe timeline consists of cumulative infection counts for each date recorded."
 components:
   schemas: {}
