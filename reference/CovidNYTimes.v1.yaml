@@ -16,7 +16,7 @@ servers:
 paths:
   /api/timeline/states:
     get:
-      summary: states
+      summary: GET states
       responses:
         '200':
           description: OK
@@ -79,41 +79,20 @@ paths:
         List of the United States states, with postal codes and FIPS Keys can be found at
         https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696
       parameters:
-        - schema:
-            type: string
-            enum:
-              - cases
-              - deaths
-            default: both
-          in: query
-          name: mode
-          description: "Indicates if the counts of cases or the counts of deaths are desired.\n\nCan have 2 values `cases`, `deaths`. Default: both are  returned.\n "
-        - schema:
-            type: boolean
-            default: 'true'
-          in: query
-          name: fipsKey
-          description: |+
-            FIPS Key = true, returns the state and county keys as FIPS code values.
-
-
+        - $ref: '#/components/parameters/mode'
+        - $ref: '#/components/parameters/fipsKey'
       tags:
         - Timeline endpoints
-        - states
+        - States
     parameters: []
   '/api/timeline/states/{state}':
     parameters:
-      - schema:
-          type: string
-        name: state
-        in: path
-        description: "Name of the state. \n\nState name can be the full name of the state, postal code or the FIPS code."
-        required: true
+      - $ref: '#/components/parameters/state'
     get:
-      summary: '/states/{state}'
+      summary: GET state
       tags:
         - Timeline endpoints
-        - states
+        - States
       responses:
         '200':
           description: OK
@@ -146,5 +125,52 @@ paths:
                       deaths: '137'
       operationId: get-api-timeline-states-state
       description: "Returns the timeline information for a single state. The state is specified as the Path Param. \n\nThe timeline consists of cumulative infection counts for each date recorded."
+      parameters:
+        - $ref: '#/components/parameters/mode'
+        - $ref: '#/components/parameters/fipsKey'
+  '/api/timeline/states/{state}/counties':
+    parameters:
+      - $ref: '#/components/parameters/state'
+    get:
+      summary: GET counties
+      tags:
+        - Timeline endpoints
+        - Counties
+        - States
+      responses: {}
+      operationId: get-api-timeline-states-state-counties
+      description: List of counties for the state selected
+      parameters:
+        - $ref: '#/components/parameters/mode'
+        - $ref: '#/components/parameters/fipsKey'
 components:
   schemas: {}
+  parameters:
+    mode:
+      name: mode
+      in: query
+      description: |-
+        Indicates if the counts of cases or the counts of deaths are desired.
+
+        Can have 2 values `cases`, `deaths`. Default both are returned
+      schema:
+        type: string
+      enum:
+        - cases
+        - deaths
+    fipsKey:
+      name: fipsKey
+      in: query
+      description: 'FIPS Key = true, returns the state and county keys as FIPS code values.'
+      schema:
+        type: string
+      enum:
+        - true
+        - false
+    state:
+      name: state
+      in: path
+      description: "Name of the state. \\n\\nState name can be the full name of the state, postal code or the FIPS code."
+      schema:
+        type: string
+      required: true
