@@ -77,13 +77,13 @@ paths:
         Returns a list of states with cumulative infection counts broken out by date.
 
         List of the United States states, with postal codes and FIPS Keys can be found at
+
         https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
         - Timeline Endpoints by State
-        - States
     parameters: []
   '/api/timeline/states/{state}':
     parameters:
@@ -92,7 +92,7 @@ paths:
       summary: GET state
       responses:
         '200':
-          description: OK
+          description: Successful Response
           content:
             application/json:
               schema:
@@ -120,6 +120,12 @@ paths:
                     '2020-04-16':
                       cases: '4404'
                       deaths: '137'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1: {}
       operationId: get-api-timeline-states-state
       description: "Returns the timeline information for a single state. The state is specified as the Path Param. \n\nThe timeline consists of cumulative infection counts for each date recorded."
       parameters:
@@ -127,13 +133,21 @@ paths:
         - $ref: '#/components/parameters/fipsKey'
       tags:
         - Timeline Endpoints by State
-        - States
   '/api/timeline/states/{state}/counties':
     parameters:
       - $ref: '#/components/parameters/state'
     get:
       summary: GET counties per state
-      responses: {}
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1: {}
       operationId: get-api-timeline-states-state-counties
       description: List of counties for the state selected
       parameters:
@@ -141,8 +155,6 @@ paths:
         - $ref: '#/components/parameters/fipsKey'
       tags:
         - Timeline Endpoints by State
-        - States
-        - Counties
   '/api/timeline/states/{state}/counties/{county}':
     parameters:
       - $ref: '#/components/parameters/county'
@@ -151,8 +163,6 @@ paths:
       summary: GET county per state
       tags:
         - Timeline Endpoints by County
-        - States
-        - Counties
       responses: {}
       operationId: get-api-timeline-states-state-counties-county
       description: County per state
@@ -164,7 +174,6 @@ paths:
       summary: GET counties
       tags:
         - Timeline Endpoints by County
-        - Counties
       responses: {}
       operationId: get-api-timeline-counties
       parameters:
@@ -177,8 +186,6 @@ paths:
       summary: GET counties per state
       tags:
         - Timeline Endpoints by County
-        - Counties
-        - States
       responses: {}
       operationId: get-api-timeline-counties-state
       parameters:
@@ -192,8 +199,6 @@ paths:
       summary: GET county per state
       tags:
         - Timeline Endpoints by County
-        - Counties
-        - States
       responses: {}
       operationId: get-api-timeline-counties-state-county
       parameters:
@@ -202,11 +207,16 @@ paths:
   /api/total/states:
     get:
       summary: GET states
-      responses: {}
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
       operationId: get-api-total-states
       tags:
         - Totals Endpoints by State
-        - States
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
@@ -217,7 +227,6 @@ paths:
       summary: GET state
       tags:
         - Totals Endpoints by State
-        - States
       responses: {}
       operationId: get-api-total-states-state
       parameters:
@@ -227,11 +236,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET counties by state
+      summary: GET counties per state
       tags:
         - Totals Endpoints by State
-        - States
-        - Counties
       responses: {}
       operationId: get-api-total-states-state-counties
       parameters:
@@ -242,11 +249,9 @@ paths:
       - $ref: '#/components/parameters/state'
       - $ref: '#/components/parameters/county'
     get:
-      summary: GET county by state
+      summary: GET county per state
       tags:
         - Totals Endpoints by State
-        - States
-        - Counties
       responses: {}
       operationId: get-api-total-states-state-counties-county
       parameters:
@@ -254,12 +259,11 @@ paths:
         - $ref: '#/components/parameters/fipsKey'
   /api/total/counties:
     get:
-      summary: Your GET endpoint
+      summary: GET counties
       responses: {}
       operationId: get-api-total-counties
       tags:
         - Totals Endpoints by County
-        - Counties
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
@@ -267,11 +271,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: Your GET endpoint
+      summary: GET state per county
       tags:
         - Totals Endpoints by County
-        - Counties
-        - States
       responses: {}
       operationId: get-api-total-counties-state
       parameters:
@@ -282,18 +284,68 @@ paths:
       - $ref: '#/components/parameters/state'
       - $ref: '#/components/parameters/county'
     get:
-      summary: Your GET endpoint
+      summary: GET county per state
       tags:
         - Totals Endpoints by County
-        - Counties
-        - States
       responses: {}
       operationId: get-api-total-counties-state-county
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
+      description: ''
 components:
-  schemas: {}
+  schemas:
+    State:
+      x-examples:
+        State example:
+          Alabama:
+            '2020-04-13':
+              cases: '3805'
+              deaths: '104'
+            '2020-04-14':
+              cases: '3953'
+              deaths: '114'
+            '2020-04-15':
+              cases: '4241'
+              deaths: '123'
+            '2020-04-16':
+              cases: '4404'
+              deaths: '137'
+          California:
+            '2020-04-13':
+              cases: '275'
+              deaths: '1'
+            '2020-04-14':
+              cases: '282'
+              deaths: '1'
+            '2020-04-15':
+              cases: '288'
+              deaths: '2'
+            '2020-04-16':
+              cases: '296'
+              deaths: '2'
+      type: object
+      description: "Collection of States with cumulative counts of infections and dates organized by date.\n\nThe Map heirarchy is as shown.\n\n{ \"State\": {\"Date\": {\"Cases\",\"Deaths\"}}} \n\nStates can be listed by their complete name or FIPS codes."
+      properties:
+        Date:
+          type: object
+          description: |-
+            Date an infection is registered in the State. Format is YYYY-MM-DD.
+
+            The List of Dates for a State starts from the first incidence of an infection being reported to a government authority.
+          example: '2020-04-10'
+          properties:
+            cases:
+              type: string
+              description: Cumulative count of infections per Date
+              example: '10'
+            deaths:
+              type: string
+              description: Cumulative count of deaths per Date.
+              example: '1'
+      x-tags:
+        - State
+      title: ''
   parameters:
     mode:
       name: mode
