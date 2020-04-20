@@ -19,32 +19,13 @@ paths:
       summary: GET states
       responses:
         '200':
-          description: OK
+          description: Successful Response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  state:
-                    type: object
-                    example: Alabama
-                    description: Name of the State
-                    properties:
-                      date:
-                        type: object
-                        example: '2020-04-13'
-                        description: Date in YYYY-MM-DD format
-                        properties:
-                          cases:
-                            type: string
-                            example: '10'
-                            description: Number of cases in the state on the particular date
-                          deaths:
-                            type: string
-                            description: Number of deaths in the state on a particular date.
-                            example: '1'
+                $ref: '#/components/schemas/TimelineState'
               examples:
-                example-1:
+                Timeline Example By State:
                   value:
                     Alabama:
                       '2020-04-13':
@@ -59,7 +40,7 @@ paths:
                       '2020-04-16':
                         cases: '4404'
                         deaths: '137'
-                    Wyoming:
+                    California:
                       '2020-04-13':
                         cases: '275'
                         deaths: '1'
@@ -72,18 +53,21 @@ paths:
                       '2020-04-16':
                         cases: '296'
                         deaths: '2'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1: {}
       operationId: get-api-timeline-states
-      description: |-
-        Returns a list of states with cumulative infection counts broken out by date.
-
-        List of the United States states, with postal codes and FIPS Keys can be found at
-
-        https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696
+      description: "Returns a collection of states with cumulative infection counts of COVID-19 in the United States, listed as a timeline. Dates in the timeline for a State start with the first incident being reported to a government authority.\n\nList of states, with postal codes and FIPS codes is at \n\nhttps://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696"
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
         - Timeline Endpoints by State
+      requestBody:
+        description: 'https://covapi.herokuapp.com/api/timeline/states'
     parameters: []
   '/api/timeline/states/{state}':
     parameters:
@@ -96,30 +80,61 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                description: Timeline date in format YYYY-MM-DD.
-                example: '2020-04-16'
-                properties:
-                  cases:
-                    type: string
-                    description: Count of the number of cases in the state on a particular date.
-                    example: '120'
-                  deaths:
-                    type: string
-                    description: Count of the number of deaths in the state on a particular date.
-                    example: '1'
+                $ref: '#/components/schemas/TimelineDate'
               examples:
-                example-1:
+                Timeline Example for California:
                   value:
+                    '2020-04-01':
+                      cases: '9816'
+                      deaths: '212'
+                    '2020-04-02':
+                      cases: '11190'
+                      deaths: '247'
+                    '2020-04-03':
+                      cases: '12569'
+                      deaths: '282'
+                    '2020-04-04':
+                      cases: '13796'
+                      deaths: '323'
+                    '2020-04-05':
+                      cases: '15076'
+                      deaths: '349'
+                    '2020-04-06':
+                      cases: '16284'
+                      deaths: '386'
+                    '2020-04-07':
+                      cases: '17540'
+                      deaths: '447'
+                    '2020-04-08':
+                      cases: '19043'
+                      deaths: '506'
+                    '2020-04-09':
+                      cases: '20191'
+                      deaths: '548'
+                    '2020-04-10':
+                      cases: '21366'
+                      deaths: '594'
+                    '2020-04-11':
+                      cases: '22421'
+                      deaths: '632'
+                    '2020-04-12':
+                      cases: '23323'
+                      deaths: '676'
+                    '2020-04-13':
+                      cases: '24334'
+                      deaths: '725'
                     '2020-04-14':
-                      cases: '3953'
-                      deaths: '114'
+                      cases: '25758'
+                      deaths: '778'
                     '2020-04-15':
-                      cases: '4241'
-                      deaths: '123'
+                      cases: '27107'
+                      deaths: '885'
                     '2020-04-16':
-                      cases: '4404'
-                      deaths: '137'
+                      cases: '28142'
+                      deaths: '971'
+                    '2020-04-17':
+                      cases: '29398'
+                      deaths: '1050'
             application/xml:
               schema:
                 type: object
@@ -127,7 +142,7 @@ paths:
               examples:
                 example-1: {}
       operationId: get-api-timeline-states-state
-      description: "Returns the timeline information for a single state. The state is specified as the Path Param. \n\nThe timeline consists of cumulative infection counts for each date recorded."
+      description: "Returns the timeline information with cumulative infection counts of COVID-19 in the United States, for a single state. \n\nThe state is specified as a Path Param."
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
@@ -147,7 +162,58 @@ paths:
                 type: object
                 properties: {}
               examples:
-                example-1: {}
+                Timeline Example By Counties:
+                  value:
+                    San Diego:
+                      '2020-04-10':
+                        cases: '107'
+                        deaths: '1'
+                      '2020-04-11':
+                        cases: '110'
+                        deaths: '1'
+                      '2020-04-12':
+                        cases: '114'
+                        deaths: '1'
+                      '2020-04-13':
+                        cases: '117'
+                        deaths: '1'
+                      '2020-04-14':
+                        cases: '120'
+                        deaths: '1'
+                      '2020-04-15':
+                        cases: '124'
+                        deaths: '1'
+                      '2020-04-16':
+                        cases: '125'
+                        deaths: '1'
+                      '2020-04-17':
+                        cases: '127'
+                        deaths: '1'
+                    San Mateo:
+                      '2020-04-10':
+                        cases: '638'
+                        deaths: '21'
+                      '2020-04-11':
+                        cases: '652'
+                        deaths: '21'
+                      '2020-04-12':
+                        cases: '652'
+                        deaths: '21'
+                      '2020-04-13':
+                        cases: '701'
+                        deaths: '21'
+                      '2020-04-14':
+                        cases: '747'
+                        deaths: '21'
+                      '2020-04-15':
+                        cases: '767'
+                        deaths: '28'
+                      '2020-04-16':
+                        cases: '767'
+                        deaths: '28'
+                      '2020-04-17':
+                        cases: '797'
+                        deaths: '28'
       operationId: get-api-timeline-states-state-counties
       description: List of counties for the state selected
       parameters:
@@ -227,11 +293,30 @@ paths:
       summary: GET state
       tags:
         - Totals Endpoints by State
-      responses: {}
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cases:
+                    type: string
+                    description: Cumulative Total of infections for the State
+                  deaths:
+                    type: string
+                    description: Cumulative Total of deaths for the State
+              examples:
+                Example Response for California:
+                  value:
+                    cases: '29398'
+                    deaths: '1050'
       operationId: get-api-total-states-state
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
+      description: 'https://covapi.herokuapp.com//api/total/states/California'
   '/api/total/states/{state}/counties':
     parameters:
       - $ref: '#/components/parameters/state'
@@ -295,7 +380,7 @@ paths:
       description: ''
 components:
   schemas:
-    State:
+    TimelineState:
       x-examples:
         State example:
           Alabama:
@@ -325,7 +410,17 @@ components:
               cases: '296'
               deaths: '2'
       type: object
-      description: "Collection of States with cumulative counts of infections and dates organized by date.\n\nThe Map heirarchy is as shown.\n\n{ \"State\": {\"Date\": {\"Cases\",\"Deaths\"}}} \n\nStates can be listed by their complete name or FIPS codes."
+      description: |-
+        Collection of States with a Timeline of infections.
+
+        States can be listed by their complete name or FIPS codes.
+
+        Timeline is broken out by Date with cumulative counts of infections and deaths. The List of Dates for a State starts from the first incidence of infection reported to a government authority.
+
+        The Date object can contain cases, deaths or both depending on the `mode` query parameter.
+      title: Timeline State
+      x-tags:
+        - Response Objects
       properties:
         Date:
           type: object
@@ -333,19 +428,113 @@ components:
             Date an infection is registered in the State. Format is YYYY-MM-DD.
 
             The List of Dates for a State starts from the first incidence of an infection being reported to a government authority.
-          example: '2020-04-10'
+          example: '2020-04-01'
           properties:
             cases:
               type: string
-              description: Cumulative count of infections per Date
+              description: Cumulative count of infections per Date.
               example: '10'
             deaths:
               type: string
               description: Cumulative count of deaths per Date.
               example: '1'
-      x-tags:
-        - State
-      title: ''
+    TimelineDate:
+      type: object
+      title: Timeline Date
+      description: "Collection of Timeline of infections. This can be requested for a state or for a county within the state depending on the Path parameters. \n\nThe List of Dates for a State starts from the first incidence of an infection being reported to a government authority.\n\nThe Date object can contain cases, deaths or both depending on the `mode` query parameter.\n\nDate format is YYYY-MM-DD."
+      example: '2020-04-01'
+      properties:
+        cases:
+          type: string
+          description: Cumulative count of infections per Date.
+          example: '10'
+        deaths:
+          type: string
+          description: Cumulative count of infections per Date.
+          example: '1'
+    TotalsState:
+      type: object
+      title: TotalsState
+      description: |-
+        Collection of States with cumulative counts of infections and deaths.
+
+        States can be listed by their complete name or FIPS codes.
+
+        The State object can contain cases, deaths or both depending on the `mode` query parameter.
+      example: California
+      properties:
+        cases:
+          type: string
+          description: Cumulative Total of infections per State
+          example: '10'
+        deaths:
+          type: string
+          description: Cumulative Total of deaths per State
+          example: '1'
+    TimelineCounty:
+      title: TimelineCounty
+      type: object
+      x-examples:
+        Timeline County Example for California:
+          San Diego:
+            '2020-04-10':
+              cases: '107'
+              deaths: '1'
+            '2020-04-11':
+              cases: '110'
+              deaths: '1'
+            '2020-04-12':
+              cases: '114'
+              deaths: '1'
+            '2020-04-13':
+              cases: '117'
+              deaths: '1'
+            '2020-04-14':
+              cases: '120'
+              deaths: '1'
+            '2020-04-15':
+              cases: '124'
+              deaths: '1'
+            '2020-04-16':
+              cases: '125'
+              deaths: '1'
+            '2020-04-17':
+              cases: '127'
+              deaths: '1'
+          San Mateo:
+            '2020-04-10':
+              cases: '638'
+              deaths: '21'
+            '2020-04-11':
+              cases: '652'
+              deaths: '21'
+            '2020-04-12':
+              cases: '652'
+              deaths: '21'
+            '2020-04-13':
+              cases: '701'
+              deaths: '21'
+            '2020-04-14':
+              cases: '747'
+              deaths: '21'
+            '2020-04-15':
+              cases: '767'
+              deaths: '28'
+            '2020-04-16':
+              cases: '767'
+              deaths: '28'
+            '2020-04-17':
+              cases: '797'
+              deaths: '28'
+      properties:
+        Date:
+          type: object
+          properties:
+            cases:
+              type: string
+            deaths:
+              type: string
+      description: ''
   parameters:
     mode:
       name: mode
