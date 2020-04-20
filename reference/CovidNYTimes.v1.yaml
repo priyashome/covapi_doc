@@ -229,8 +229,6 @@ paths:
       - $ref: '#/components/parameters/state'
     get:
       summary: GET county per state
-      tags:
-        - Timeline Endpoints by County
       responses:
         '200':
           description: Successful Response
@@ -273,6 +271,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
+      tags:
+        - Timeline Endpoints by State
   /api/timeline/counties:
     get:
       summary: GET states and counties
@@ -876,7 +876,7 @@ paths:
         The state and county is specified as a Path param.
   /api/total/counties:
     get:
-      summary: GET counties
+      summary: GET states and counties
       responses:
         '200':
           description: Successful Response
