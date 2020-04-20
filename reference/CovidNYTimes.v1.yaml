@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: CovidNYTimes API Docs
   version: '1.0'
-  description: "API documentation for COVID-19 2020 cumulative counts of infection in the United States. Provided by the New York Times, based on data collected from state and local agencies.\n\nThe data begins with the first reported coronavirus case in Washington State on Jan. 21, 2020.\n\nCount of patients occurs at the place where they are treated, not where they live.\n\n**Confirmed**\nThis data reflects *Confirmed* cases. Cases are confirmed when they are reported by federal, state, territorial or local government agency. \n\n**Dates**\nEach date includes the cumulative count of cases or deaths reported on that day. \n\nList of states, with postal codes and FIPS codes is at \nhttps://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696\n\nList of counties per state with FIPS codes \nhttps://www.census.gov/prod/techdoc/cbp/cbp95/st-cnty.pdf"
+  description: "API documentation for COVID-19 2020 counts of infection in the United States. Provided by the New York Times, based on data collected from state and local agencies.\n\nData contains timeline information with cumulative case counts AND total case count information. \n\nThe timeline data begins with the first reported coronavirus case in Washington State on Jan. 21, 2020. Count of patients occurs at the place where they are treated.\n\nStates and Counties can be specified as names, postal codes (for states) of FIPS codes. \n\nList of states, with postal codes and FIPS codes is at \nhttps://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696\n\nList of counties per state with FIPS codes \nhttps://www.census.gov/prod/techdoc/cbp/cbp95/st-cnty.pdf"
   contact:
     email: covid-data@nytimes.com
     name: New York Times
@@ -1061,7 +1061,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET state per county
+      summary: GET counties per state
       tags:
         - Totals Endpoints by County
       responses:
@@ -1240,7 +1240,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: ''
+      description: "Returns total counts of infection of COVID-19 in the United States, listed per county for a single state. \n\nThe state is specified as a Path param."
   '/api/total/counties/{state}/{county}':
     parameters:
       - $ref: '#/components/parameters/state'
@@ -1249,7 +1249,18 @@ paths:
       summary: GET county per state
       tags:
         - Totals Endpoints by County
-      responses: {}
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Total'
+              examples:
+                'Example - CA, San Diego County':
+                  value:
+                    cases: '2158'
+                    deaths: '70'
       operationId: get-api-total-counties-state-county
       parameters:
         - $ref: '#/components/parameters/mode'
@@ -1305,7 +1316,7 @@ components:
       type: object
       title: TotalsState
       description: |-
-        Collection of States with cumulative counts of infections and deaths.
+        Collection of States with total counts of infections and deaths.
 
         States can be listed by their complete name or FIPS codes.
 
@@ -1393,7 +1404,7 @@ components:
       type: object
       title: TotalsCounty
       description: |-
-        Collection of Counties with cumulative counts of infections and deaths. These are specified for a single state.
+        Collection of Counties with total counts of infections and deaths. These are specified for a single state.
 
         Counties can be listed by their complete name or FIPS codes.
 
@@ -1402,33 +1413,33 @@ components:
       properties:
         cases:
           type: string
-          description: Cumulative Total of infections per State
+          description: Total number of infections per State
           example: '10'
         deaths:
           type: string
-          description: Cumulative Total of deaths per State
+          description: Total number of deaths per State
           example: '1'
     Total:
       title: Total
       type: object
       description: |-
-        Object describing the total cumulative counts of cases and deaths.
+        Object describing the total counts of cases and deaths.
 
         This object can be used to describe the totals for a state or totals for a county in the state.
       properties:
         cases:
           type: string
-          description: Cumulative Total of infections per State.
+          description: Total number of infections per State.
           example: '100'
         deaths:
           type: string
-          description: Cumulative Total of deaths per State.
+          description: Total number of deaths per State.
           example: '10'
     TotalsStateAndCounty:
       type: object
       title: TotalsStateAndCounty
       description: |-
-        Collection of States with Counties and a totals of infections counts per County.
+        Collection of States with Counties and a total of infections counts per County.
 
         States can be listed by their complete name or FIPS codes.
         Counties can be listed by their complete name of FIPS codes.
