@@ -16,7 +16,7 @@ servers:
 paths:
   /api/timeline/states:
     get:
-      summary: GET List of all states and infection counts
+      summary: GET List of infection counts for all states
       responses:
         '200':
           description: Successful Response
@@ -63,22 +63,22 @@ paths:
       description: |
         Returns the timeline of COVID-19 infections for each state in the United States of America.
 
-        For each state, the timeline starts with the date of the first infection incident reported to a government authority. The timeline extends to the current date.
+        For each state, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.
 
         For each date, a cumulative count of cases and deaths is reported.
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      tags:
-        - Timeline Endpoints by State
       requestBody:
         description: 'https://covapi.herokuapp.com/api/timeline/states'
+      tags:
+        - Timeline Endpoints Organized by State
     parameters: []
   '/api/timeline/states/{state}':
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET Infection counts for one state
+      summary: GET Infection counts per state
       responses:
         '200':
           description: Successful Response
@@ -159,12 +159,12 @@ paths:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
-        - Timeline Endpoints by State
+        - Timeline Endpoints Organized by State
   '/api/timeline/states/{state}/counties':
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET counties per state
+      summary: GET List of infection counts for all counties in a state
       responses:
         '200':
           description: Successful Response
@@ -227,20 +227,24 @@ paths:
                         deaths: '28'
       operationId: get-api-timeline-states-state-counties
       description: |-
-        Returns the timeline information with cumulative infection counts of COVID-19 in the United States, per county for a single state.
+        Returns the timeline of COVID-19 infections, for each county, in a single state.
 
-        The state is specified as a Path param.
+        For each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.
+
+        For each date, a cumulative count of cases and deaths is reported.
+
+        The state is specified as a Path Param.
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
-        - Timeline Endpoints by State
+        - Timeline Endpoints Organized by State
   '/api/timeline/states/{state}/counties/{county}':
     parameters:
       - $ref: '#/components/parameters/county'
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET county per state
+      summary: GET Infection counts per county per state
       responses:
         '200':
           description: Successful Response
@@ -277,14 +281,16 @@ paths:
                       deaths: '70'
       operationId: get-api-timeline-states-state-counties-county
       description: |-
-        Returns the timeline information with cumulative infection counts of COVID-19 in the United States, for a single county, for a state.
+        Returns the timeline of COVID-19 infections for a single county in the state.
 
-        The state and county are specified as Path params.
+        The timeline starts with the date of the first infection incident reported to a government authority and extends to the current date.
+
+        The state and county are specified as Path Params.
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
-        - Timeline Endpoints by State
+        - Timeline Endpoints Organized by State
   /api/timeline/counties:
     get:
       summary: GET states and counties
@@ -1484,7 +1490,7 @@ components:
       description: |-
         Indicates if the counts of cases or the counts of deaths are desired.
 
-        Can have 2 values `cases`, `deaths`. Default both are returned
+        Can have 2 values `cases`, `deaths`. By default, both are returned
       schema:
         type: string
       enum:
@@ -1493,7 +1499,7 @@ components:
     fipsKey:
       name: fipsKey
       in: query
-      description: "FIPS Key = true, returns the state and county keys as FIPS code values.'"
+      description: "If FIPS Key = true, returns the state and county keys as FIPS code values.'"
       schema:
         type: string
       enum:
