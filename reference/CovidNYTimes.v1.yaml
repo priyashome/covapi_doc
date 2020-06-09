@@ -16,7 +16,7 @@ servers:
 paths:
   /api/timeline/states:
     get:
-      summary: GET states
+      summary: GET List of all states and infection counts
       responses:
         '200':
           description: Successful Response
@@ -60,7 +60,12 @@ paths:
               examples:
                 example-1: {}
       operationId: get-api-timeline-states
-      description: "Returns a collection of states with cumulative infection counts of COVID-19 in the United States, listed as a timeline. \n\nDates in the timeline for a State start with the first incident being reported to a government authority."
+      description: |
+        Returns the timeline of COVID-19 infections for each state in the United States of America.
+
+        For each state, the timeline starts with the date of the first infection incident reported to a government authority. The timeline extends to the current date.
+
+        For each date, a cumulative count of cases and deaths is reported.
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
@@ -73,7 +78,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET state
+      summary: GET Infection counts for one state
       responses:
         '200':
           description: Successful Response
@@ -142,7 +147,14 @@ paths:
               examples:
                 example-1: {}
       operationId: get-api-timeline-states-state
-      description: "Returns the timeline information with cumulative infection counts of COVID-19 in the United States, for a single state. \n\nThe state required is specified as a Path Param."
+      description: |-
+        Returns the timeline of COVID-19 infections for a single state.
+
+        The timeline starts with the date of the first infection incident reported to a government authority and extends to the current date.
+
+        For each date, a cumulative count of cases and deaths is reported.
+
+        The state is specified as a Path Param.
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
