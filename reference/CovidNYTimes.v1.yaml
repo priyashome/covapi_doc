@@ -60,7 +60,7 @@ paths:
               examples:
                 example-1: {}
       operationId: get-api-timeline-states
-      description: "Returns the timeline of COVID-19 infections for each state in the United States of America.\n\nFor each state, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the state and county keys as FIPS code values.  \n   \n"
+      description: "Returns the timeline of COVID-19 infections for each state in the United States of America.\n\nFor each state, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the state keys as FIPS code values.  \n   \n"
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
@@ -204,7 +204,7 @@ paths:
                         cases: '797'
                         deaths: '28'
       operationId: get-api-timeline-states-state-counties
-      description: "Returns the timeline of COVID-19 infections, for each county, in a single state.\n\nFor each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the state and county keys as FIPS code values. \n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively.\n"
+      description: "Returns the timeline of COVID-19 infections, for each county, in a single state.\n\nFor each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the county keys as FIPS code values. \n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively.\n"
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
@@ -386,7 +386,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: "Returns the timeline of COVID-19 infections, for each county, in a single state.\n\nFor each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the state and county keys as FIPS code values. \n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
+      description: "Returns the timeline of COVID-19 infections, for each county, in a single state.\n\nFor each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the county keys as FIPS code values. \n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
       tags:
         - Timeline API
   '/api/timeline/counties/{state}/{county}':
@@ -442,7 +442,7 @@ paths:
       operationId: get-api-timeline-counties-state-county
       parameters:
         - $ref: '#/components/parameters/mode'
-      description: "The timeline starts with the date of the first infection incident reported to a government authority in the county, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
+      description: "Returns the timeline of COVID-19 infections for a single county in the state.\n\nThe timeline starts with the date of the first infection incident reported to a government authority in the county, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
       tags:
         - Timeline API
   /api/total/states:
@@ -632,7 +632,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: Returns the total counts of infections for each state in the United States of America.
+      description: |-
+        Returns the total counts of COVID-19 infections for each state in the United States of America.
+
+        Counts of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.
+
+        Toggle the `fipsKey` query parameter to report the state keys as FIPS code values.
   '/api/total/states/{state}':
     parameters:
       - $ref: '#/components/parameters/state'
@@ -653,13 +658,7 @@ paths:
       operationId: get-api-total-states-state
       parameters:
         - $ref: '#/components/parameters/mode'
-        - $ref: '#/components/parameters/fipsKey'
-      description: |-
-        Returns the total counts of COVID-19 infections for a single state.
-
-        For each state, a count of cases and deaths is reported.
-
-        The state is specified as a Path param.
+      description: "Returns the total counts of COVID-19 infections for a single state.\n\nA count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n"
       tags:
         - Totals API
   '/api/total/states/{state}/counties':
@@ -667,8 +666,6 @@ paths:
       - $ref: '#/components/parameters/state'
     get:
       summary: 'GET total/states/{state}/counties'
-      tags:
-        - Totals Endpoints by State
       responses:
         '200':
           description: Successful Response
@@ -845,18 +842,15 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: |-
-        Returns the total counts of infections of COVID-19, per county for a single state.
-
-        The state is specified as a Path param.
+      description: "Returns the total counts of COVID-19 infections, for each county, in a single state.\n\nA count of cases and deaths per county is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the county keys as FIPS code values. \n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively."
+      tags:
+        - Totals API
   '/api/total/states/{state}/counties/{county}':
     parameters:
       - $ref: '#/components/parameters/state'
       - $ref: '#/components/parameters/county'
     get:
       summary: 'GET total/states/{state}/counties/{county}'
-      tags:
-        - Totals Endpoints by State
       responses:
         '200':
           description: Successful Response
@@ -872,11 +866,9 @@ paths:
       operationId: get-api-total-states-state-counties-county
       parameters:
         - $ref: '#/components/parameters/mode'
-        - $ref: '#/components/parameters/fipsKey'
-      description: |-
-        Returns the total counts of infections of COVID-19, for a single county for a single state.
-
-        The state and county is specified as a Path param.
+      description: "Returns the total counts of COVID-19 infections, for a single county in the state.\n\nA count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
+      tags:
+        - Totals API
   /api/total/counties:
     get:
       summary: GET total/counties
@@ -1054,19 +1046,22 @@ paths:
                         cases: '15'
                         deaths: '1'
       operationId: get-api-total-counties
-      tags:
-        - Totals Endpoints by County
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: Returns a collection of states and counties with the total counts of infection of COVID-19 in the United States.
+      description: |-
+        Returns the total counts of COVID-19 infections, for all states, and all counties in the state. This is the most comprehensive list produced by this API.
+
+        Counts of cases and deaths are reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.
+
+        Toggle the `fipsKey` query parameter to report the state and county keys as FIPS code values.
+      tags:
+        - Totals API
   '/api/total/counties/{state}':
     parameters:
       - $ref: '#/components/parameters/state'
     get:
       summary: 'GET total/counties/{state}'
-      tags:
-        - Totals Endpoints by County
       responses:
         '200':
           description: Successful Response
@@ -1243,15 +1238,15 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: "Returns total counts of infection of COVID-19 in the United States, listed per county for a single state. \n\nThe state is specified as a Path param."
+      description: "Returns the total counts of COVID-19 infections, for each county, in a single state.\n\nA count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the state and county keys as FIPS code values.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively."
+      tags:
+        - Totals API
   '/api/total/counties/{state}/{county}':
     parameters:
       - $ref: '#/components/parameters/state'
       - $ref: '#/components/parameters/county'
     get:
       summary: 'GET total/counties/{state}/{county}'
-      tags:
-        - Totals Endpoints by County
       responses:
         '200':
           description: Successful Response
@@ -1267,13 +1262,14 @@ paths:
       operationId: get-api-total-counties-state-county
       parameters:
         - $ref: '#/components/parameters/mode'
-        - $ref: '#/components/parameters/fipsKey'
-      description: ''
+      description: "Returns the total counts of COVID-19 infections, for a single county in the state.\n\nA count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
+      tags:
+        - Totals API
 components:
   schemas:
     TimelineState:
       type: object
-      title: Timeline State
+      title: TimelineState
       description: Collection of states. States can be listed by their complete name or FIPS codes.
       example: 'California, CA, 06'
       x-examples: {}
@@ -1293,7 +1289,7 @@ components:
               example: '1'
     TimelineDate:
       type: object
-      title: Timeline Date
+      title: TimelineDate
       description: Collection of dates of infection. Format is YYYY-MM-DD.
       example: '2020-04-01'
       x-examples:
