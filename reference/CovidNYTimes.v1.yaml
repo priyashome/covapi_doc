@@ -16,7 +16,7 @@ servers:
 paths:
   /api/timeline/states:
     get:
-      summary: GET List of infection counts for all states
+      summary: GET timeline/states
       responses:
         '200':
           description: Successful Response
@@ -25,7 +25,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineState'
               examples:
-                Example Snippet:
+                'https://covapi.herokuapp.com/api/timeline/states/':
                   value:
                     Alabama:
                       '2020-04-13':
@@ -69,16 +69,19 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      requestBody:
-        description: 'https://covapi.herokuapp.com/api/timeline/states'
       tags:
-        - Timeline Endpoints Organized by State
+        - Timeline API
     parameters: []
   '/api/timeline/states/{state}':
     parameters:
+      - schema:
+          type: string
+        name: state
+        in: path
+        required: true
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET Infection counts per state
+      summary: 'GET timeline/states/{state}'
       responses:
         '200':
           description: Successful Response
@@ -87,59 +90,42 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineDate'
               examples:
-                Example - Snippet for CA:
+                'https://covapi.herokuapp.com/api/timeline/states/CA':
                   value:
-                    '2020-04-01':
-                      cases: '9816'
-                      deaths: '212'
-                    '2020-04-02':
-                      cases: '11190'
-                      deaths: '247'
-                    '2020-04-03':
-                      cases: '12569'
-                      deaths: '282'
-                    '2020-04-04':
-                      cases: '13796'
-                      deaths: '323'
-                    '2020-04-05':
-                      cases: '15076'
-                      deaths: '349'
-                    '2020-04-06':
-                      cases: '16284'
-                      deaths: '386'
-                    '2020-04-07':
-                      cases: '17540'
-                      deaths: '447'
-                    '2020-04-08':
-                      cases: '19043'
-                      deaths: '506'
-                    '2020-04-09':
-                      cases: '20191'
-                      deaths: '548'
-                    '2020-04-10':
-                      cases: '21366'
-                      deaths: '594'
-                    '2020-04-11':
-                      cases: '22421'
-                      deaths: '632'
-                    '2020-04-12':
-                      cases: '23323'
-                      deaths: '676'
-                    '2020-04-13':
-                      cases: '24334'
-                      deaths: '725'
-                    '2020-04-14':
-                      cases: '25758'
-                      deaths: '778'
-                    '2020-04-15':
-                      cases: '27107'
-                      deaths: '885'
-                    '2020-04-16':
-                      cases: '28142'
-                      deaths: '971'
-                    '2020-04-17':
-                      cases: '29398'
-                      deaths: '1050'
+                    '2020-06-01':
+                      cases: '115643'
+                      deaths: '4287'
+                    '2020-06-02':
+                      cases: '118081'
+                      deaths: '4360'
+                    '2020-06-03':
+                      cases: '120407'
+                      deaths: '4422'
+                    '2020-06-04':
+                      cases: '122917'
+                      deaths: '4484'
+                    '2020-06-05':
+                      cases: '126510'
+                      deaths: '4550'
+                    '2020-06-06':
+                      cases: '129147'
+                      deaths: '4626'
+                    '2020-06-07':
+                      cases: '131997'
+                      deaths: '4653'
+                    '2020-06-08':
+                      cases: '134287'
+                      deaths: '4679'
+                'https://covapi.herokuapp.com/api/timeline/states/CA?mode=cases':
+                  value:
+                    '2020-06-01': 115643
+                    '2020-06-02': 118081
+                    '2020-06-03': 120407
+                    '2020-06-04': 122917
+                    '2020-06-05': 126510
+                    '2020-06-06': 129147
+                    '2020-06-07': 131997
+                    '2020-06-08': 134287
             application/xml:
               schema:
                 type: object
@@ -147,24 +133,27 @@ paths:
               examples:
                 example-1: {}
       operationId: get-api-timeline-states-state
-      description: |-
+      description: |
         Returns the timeline of COVID-19 infections for a single state.
 
         The timeline starts with the date of the first infection incident reported to a government authority and extends to the current date.
-
-        For each date, a cumulative count of cases and deaths is reported.
 
         The state is specified as a Path Param.
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
-        - Timeline Endpoints Organized by State
+        - Timeline API
   '/api/timeline/states/{state}/counties':
     parameters:
+      - schema:
+          type: string
+        name: state
+        in: path
+        required: true
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET List of infection counts for all counties in a state
+      summary: 'GET timeline/states/{state}/counties'
       responses:
         '200':
           description: Successful Response
@@ -231,20 +220,28 @@ paths:
 
         For each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.
 
-        For each date, a cumulative count of cases and deaths is reported.
-
         The state is specified as a Path Param.
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
-        - Timeline Endpoints Organized by State
+        - Timeline API
   '/api/timeline/states/{state}/counties/{county}':
     parameters:
+      - schema:
+          type: string
+        name: state
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: county
+        in: path
+        required: true
       - $ref: '#/components/parameters/county'
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET Infection counts per county per state
+      summary: 'GET timeline/states/{state}/counties/{county}'
       responses:
         '200':
           description: Successful Response
@@ -290,12 +287,10 @@ paths:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       tags:
-        - Timeline Endpoints Organized by State
+        - Timeline API
   /api/timeline/counties:
     get:
-      summary: GET states and counties
-      tags:
-        - Timeline Endpoints by County
+      summary: GET timeline/counties
       responses:
         '200':
           description: Successful Response
@@ -336,14 +331,24 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: "Returns a collection of states and counties with cumulative infection counts of COVID-19 in the United States, listed as a timeline. \n\nDates in the timeline for a County in the State start with the first incident being reported to a government authority."
+      description: |-
+        Returns the timeline of COVID-19 infections, for all states and counties in the state.
+
+        For each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.
+
+        For each date, a cumulative count of cases and deaths is reported.
+      tags:
+        - Timeline API
   '/api/timeline/counties/{state}':
     parameters:
+      - schema:
+          type: string
+        name: state
+        in: path
+        required: true
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET counties per state
-      tags:
-        - Timeline Endpoints by County
+      summary: 'GET timeline/counties/{state}'
       responses:
         '200':
           description: Successful Response
@@ -409,17 +414,31 @@ paths:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       description: |-
-        Returns the timeline information with cumulative infection counts of COVID-19 in the United States, per county for a single state.
+        Returns the timeline of COVID-19 infections, for each county, in a single state.
 
-        The state is specified as a Path param.
+        For each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.
+
+        For each date, a cumulative count of cases and deaths is reported.
+
+        The state is specified as a Path Param.
+      tags:
+        - Timeline API
   '/api/timeline/counties/{state}/{county}':
     parameters:
+      - schema:
+          type: string
+        name: state
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: county
+        in: path
+        required: true
       - $ref: '#/components/parameters/state'
       - $ref: '#/components/parameters/county'
     get:
-      summary: GET county per state
-      tags:
-        - Timeline Endpoints by County
+      summary: 'GET timeline/counties/{state}/{county}'
       responses:
         '200':
           description: Successful Response
@@ -459,12 +478,16 @@ paths:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       description: |-
-        Returns the timeline information with cumulative infection counts of COVID-19 in the United States, for a single county, for a state.
+        Returns the timeline of COVID-19 infections for a single county in the state.
 
-        The state and county are specified as Path params.
+        The timeline starts with the date of the first infection incident reported to a government authority and extends to the current date.
+
+        The state and county are specified as Path Params.
+      tags:
+        - Timeline API
   /api/total/states:
     get:
-      summary: GET states
+      summary: GET total/states
       responses:
         '200':
           description: Successful Response
@@ -645,18 +668,16 @@ paths:
                       deaths: '2'
       operationId: get-api-total-states
       tags:
-        - Totals Endpoints by State
+        - Totals API
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: 'Returns a collection of the total counts of infections per state, of COVID-19 in the United States.'
+      description: Returns the total counts of infections for each state in the United States of America.
   '/api/total/states/{state}':
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET state
-      tags:
-        - Totals Endpoints by State
+      summary: 'GET total/states/{state}'
       responses:
         '200':
           description: Successful Response
@@ -674,14 +695,18 @@ paths:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
       description: |-
-        Returns the total counts of infections of COVID-19 for a single state.
+        Returns the total counts of COVID-19 infections for a single state.
+
+        For each state, a count of cases and deaths is reported.
 
         The state is specified as a Path param.
+      tags:
+        - Totals API
   '/api/total/states/{state}/counties':
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET counties per state
+      summary: 'GET total/states/{state}/counties'
       tags:
         - Totals Endpoints by State
       responses:
@@ -869,7 +894,7 @@ paths:
       - $ref: '#/components/parameters/state'
       - $ref: '#/components/parameters/county'
     get:
-      summary: GET county per state
+      summary: 'GET total/states/{state}/counties/{county}'
       tags:
         - Totals Endpoints by State
       responses:
@@ -894,7 +919,7 @@ paths:
         The state and county is specified as a Path param.
   /api/total/counties:
     get:
-      summary: GET states and counties
+      summary: GET total/counties
       responses:
         '200':
           description: Successful Response
@@ -1079,7 +1104,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/state'
     get:
-      summary: GET counties per state
+      summary: 'GET total/counties/{state}'
       tags:
         - Totals Endpoints by County
       responses:
@@ -1264,7 +1289,7 @@ paths:
       - $ref: '#/components/parameters/state'
       - $ref: '#/components/parameters/county'
     get:
-      summary: GET county per state
+      summary: 'GET total/counties/{state}/{county}'
       tags:
         - Totals Endpoints by County
       responses:
@@ -1289,199 +1314,146 @@ components:
     TimelineState:
       type: object
       title: Timeline State
-      description: |-
-        Collection of States with a Timeline of infections.
-
-        States can be listed by their complete name or FIPS codes.
-
-        Timeline is broken out by Date with cumulative counts of infections and deaths. The List of Dates for a State starts from the first incidence of infection reported to a government authority.
-
-        The Date object can contain cases, deaths or both depending on the `mode` query parameter.
+      description: Collection of states. States can be listed by their complete name or FIPS codes.
       example: 'California, CA, 06'
+      x-examples: {}
       properties:
         Date:
           type: object
-          description: |-
-            Date an infection is registered in the State. Format is YYYY-MM-DD.
-
-            The List of Dates for a State starts from the first incidence of an infection being reported to a government authority.
+          description: Date of infection. Format is YYYY-MM-DD.
           example: '2020-04-01'
           properties:
             cases:
               type: string
-              description: Cumulative count of infections per Date.
+              description: Cumulative count of cases on date.
               example: '10'
             deaths:
               type: string
-              description: Cumulative count of deaths per Date.
+              description: Cumulative count of deaths on date.
               example: '1'
-      x-examples: {}
     TimelineDate:
       type: object
       title: Timeline Date
-      description: "Collection of Timeline of infections. This can be requested for a state or for a county within the state depending on the Path parameters. \n\nThe List of Dates for a State starts from the first incidence of an infection being reported to a government authority.\n\nThe Date object can contain cases, deaths or both depending on the `mode` query parameter.\n\nDate format is YYYY-MM-DD."
+      description: Collection of dates of infection. Format is YYYY-MM-DD.
       example: '2020-04-01'
+      x-examples:
+        example-1: {}
       properties:
         cases:
           type: string
-          description: Cumulative count of infections per Date.
+          description: Cumulative count of cases on date.
           example: '10'
         deaths:
           type: string
-          description: Cumulative count of infections per Date.
+          description: Cumulative count of deaths on date.
           example: '1'
     TotalsState:
       type: object
       title: TotalsState
-      description: |-
-        Collection of States with total counts of infections and deaths.
-
-        States can be listed by their complete name or FIPS codes.
-
-        The State object can contain cases, deaths or both depending on the `mode` query parameter.
+      description: Collection of states. States can be listed by their complete name or FIPS codes.
       example: 'California, CA, 06'
+      x-examples: {}
       properties:
         cases:
           type: string
-          description: Cumulative Total of infections per State
+          description: Total number of cases in the state.
           example: '10'
         deaths:
           type: string
-          description: Cumulative Total of deaths per State
+          description: Total number of deaths in the state.
           example: '1'
-      x-examples: {}
     TimelineCounty:
       type: object
       title: TimelineCounty
-      description: |-
-        Collection of Counties for a state with a Timeline of infections.
-
-        Counties can be listed by their complete name or FIPS codes.
-
-        Timeline is broken out by Date with cumulative counts of infections and deaths. The List of Dates for a State starts from the first incidence of infection reported to a government authority.
-
-        The Date object can contain cases, deaths or both depending on the `mode` query parameter.
+      description: Collection of counties. Counties can be listed by their complete name or FIPS codes.
       example: 'San Diego, 06073'
+      x-examples: {}
       properties:
         Date:
           type: object
-          description: |-
-            Date an infection is registered in the State. Format is YYYY-MM-DD.
-
-            The List of Dates for a State starts from the first incidence of an infection being reported to a government authority.
+          description: Date of infection. Format is YYYY-MM-DD.
           example: '2020-04-01'
           properties:
             cases:
               type: string
-              description: Cumulative count of infections per Date.
+              description: Cumulative count of cases on date.
               example: '10'
             deaths:
               type: string
-              description: Cumulative count of deaths per Date.
+              description: Cumulative count of deaths on date.
               example: '1'
-      x-examples: {}
     TimelineStateAndCounty:
       type: object
       title: TimelineStateAndCounty
-      description: |-
-        Collection of States with Counties and a Timeline of infections per County.
-
-        States can be listed by their complete name or FIPS codes.
-        Counties can be listed by their complete name of FIPS codes.
-
-        Timeline is broken out by Date with cumulative counts of infections and deaths. The List of Dates for a State starts from the first incidence of infection reported to a government authority.
-
-        The Date object can contain cases, deaths or both depending on the mode query parameter.
+      description: Collection of states. States can be listed by their complete name or FIPS codes.
       example: 'California, CA, 06'
       properties:
         County:
           type: object
-          description: |-
-            Names of Counties in the state.
-
-            Counties can be listed as names or FIPS codes.
+          description: Collection of counties in the state. Counties can be listed by their complete name or FIPS codes.
           example: 'SanDiego, 06073'
           properties:
             Date:
               type: object
-              description: |-
-                Date an infection is registered in the State. Format is YYYY-MM-DD.
-
-                The List of Dates for a State starts from the first incidence of an infection being reported to a government authority.
+              description: Date of infection. Format is YYYY-MM-DD.
               example: '2020-04-01'
               properties:
                 cases:
                   type: string
-                  description: Cumulative count of infections per Date.
+                  description: Cumulative count of cases on date.
                   example: '10'
                 deaths:
                   type: string
-                  description: Cumulative count of deaths per Date.
+                  description: Cumulative count of deaths on date.
                   example: '1'
     TotalsCounty:
       type: object
       title: TotalsCounty
-      description: |-
-        Collection of Counties with total counts of infections and deaths. These are specified for a single state.
-
-        Counties can be listed by their complete name or FIPS codes.
-
-        The Counties object can contain cases, deaths or both depending on the `mode` query parameter.
+      description: Collection of counties. Counties can be listed by their complete name or FIPS codes.
       example: 'San Diego, 06073'
       properties:
         cases:
           type: string
-          description: Total number of infections per State
+          description: Total number of cases in the county.
           example: '10'
         deaths:
           type: string
-          description: Total number of deaths per State
+          description: Total number of deaths in the county.
           example: '1'
     Total:
       title: Total
       type: object
       description: |-
-        Object describing the total counts of cases and deaths.
+        Total counts of cases and deaths.
 
         This object can be used to describe the totals for a state or totals for a county in the state.
       properties:
         cases:
           type: string
-          description: Total number of infections per State.
+          description: Total number of cases in the state.
           example: '100'
         deaths:
           type: string
-          description: Total number of deaths per State.
+          description: Total number of deaths in the state.
           example: '10'
     TotalsStateAndCounty:
       type: object
       title: TotalsStateAndCounty
-      description: |-
-        Collection of States with Counties and a total of infections counts per County.
-
-        States can be listed by their complete name or FIPS codes.
-        Counties can be listed by their complete name of FIPS codes.
-
-        Timeline is broken out by Date with cumulative counts of infections and deaths. The List of Dates for a State starts from the first incidence of infection reported to a government authority.
-
-        The Date object can contain cases, deaths or both depending on the mode query parameter.
+      description: Collection of States. States can be listed by their complete name or FIPS codes.
       example: 'California, CA, 06'
       properties:
         County:
           type: object
-          description: |-
-            Names of Counties in the state.
-
-            Counties can be listed as names or FIPS codes.
+          description: Collection of counties in the state. Counties can be listed by their complete name or FIPS codes.
           example: 'SanDiego, 06073'
           properties:
             cases:
               type: string
-              description: Cumulative count of infections per Date.
+              description: Total number of cases in the county.
               example: '10'
             deaths:
               type: string
-              description: Cumulative count of deaths per Date.
+              description: Total number of deaths in the county.
               example: '1'
   parameters:
     mode:
