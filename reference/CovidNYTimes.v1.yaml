@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: CovidNYTimes API Docs
+  title: COVID-19 NYTimes API Docs
   version: '1.0'
   description: "API documentation for COVID-19 2020 counts of infection in the United States. Provided by the New York Times, based on data collected from state and local agencies.\n\nData contains timeline information with cumulative case counts AND total case count information. \n\nThe timeline data begins with the first reported coronavirus case in Washington State on Jan. 21, 2020. Count of patients occurs at the place where they are treated.\n\nStates and Counties can be specified as names, postal codes (for states) of FIPS codes. \n\nList of states, with postal codes and FIPS codes is at \nhttps://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696\n\nList of counties per state with FIPS codes \nhttps://www.census.gov/prod/techdoc/cbp/cbp95/st-cnty.pdf"
   contact:
@@ -261,7 +261,7 @@ paths:
                       cases: '2158'
                       deaths: '70'
       operationId: get-api-timeline-states-state-counties-county
-      description: "Returns the timeline of COVID-19 infections for a single county in the state.\n\nThe timeline starts with the date of the first infection incident reported to a government authority in the county and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively.\n\n"
+      description: "Returns the timeline of COVID-19 infections for a single county in the state.\n\nThe timeline starts with the date of the first infection incident reported to a government authority in the county, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively.\n\n"
       parameters:
         - $ref: '#/components/parameters/mode'
       tags:
@@ -309,12 +309,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: |-
-        Returns the timeline of COVID-19 infections, for all states and counties in the state.
-
-        For each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.
-
-        For each date, a cumulative count of cases and deaths is reported.
+      description: "Returns the timeline of COVID-19 infections, for all states, and all counties in the state.\n\nFor each county per state, the timeline starts with the date of the first infection incident reported to a government authority in the county, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the state and county keys as FIPS code values. "
       tags:
         - Timeline API
   '/api/timeline/counties/{state}':
@@ -391,14 +386,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/mode'
         - $ref: '#/components/parameters/fipsKey'
-      description: |-
-        Returns the timeline of COVID-19 infections, for each county, in a single state.
-
-        For each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.
-
-        For each date, a cumulative count of cases and deaths is reported.
-
-        The state is specified as a Path Param.
+      description: "Returns the timeline of COVID-19 infections, for each county, in a single state.\n\nFor each county, the timeline starts with the date of the first infection incident reported to a government authority, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nToggle the `fipsKey` query parameter to report the state and county keys as FIPS code values. \n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
       tags:
         - Timeline API
   '/api/timeline/counties/{state}/{county}':
@@ -454,13 +442,7 @@ paths:
       operationId: get-api-timeline-counties-state-county
       parameters:
         - $ref: '#/components/parameters/mode'
-        - $ref: '#/components/parameters/fipsKey'
-      description: |-
-        Returns the timeline of COVID-19 infections for a single county in the state.
-
-        The timeline starts with the date of the first infection incident reported to a government authority and extends to the current date.
-
-        The state and county are specified as Path Params.
+      description: "The timeline starts with the date of the first infection incident reported to a government authority in the county, and extends to the current date.\n\nFor each date, a cumulative count of cases and deaths is reported. Both cases and death counts are reported as default, choose the `mode` query parameter to report either one.\n\nThe `state` path param can be specified with the name, the state postal code, or with the FIPS code. \nFor example, California, CA, and 06 respectively.\n\nThe `county` path param can be specified with the name, or with the FIPS code. \nFor example, San Mateo, and 06081 respectively."
       tags:
         - Timeline API
   /api/total/states:
